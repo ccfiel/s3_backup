@@ -5,8 +5,8 @@ from frappe import _
 def get_data():
 	return {
 		"Amazon S3 Backup": {
-			"color": "grey",
-			"icon": "octicon octicon-file-directory",
+			"color": "#ff9900",
+			"icon": "octicon octicon-cloud-upload",
 			"type": "module",
 			"label": _("Amazon S3 Backup")
 		}

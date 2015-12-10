@@ -18,8 +18,8 @@ def take_backups_monthly():
 
 
 def take_backups_if(freq):
-    if cint(frappe.db.get_value("Amazon S3 BackUp", None, "enable")):
-        if frappe.db.get_value("Amazon S3 BackUp", None, "frequency") == freq:
+    if cint(frappe.db.get_value("Amazon S3 Settings", None, "enable")):
+        if frappe.db.get_value("Amazon S3 Settings", None, "frequency") == freq:
             take_backups_s3()
 
 
@@ -27,11 +27,11 @@ def take_backups_if(freq):
 def take_backups_s3():
     try:
         backup_to_s3()
-        send_email(True, "Amazon S3 BackUp")
+        send_email(True, "Amazon S3 Settings")
     except Exception:
         error_message = frappe.get_traceback()
         frappe.errprint(error_message)
-        send_email(False, "Amazon S3 BackUp", error_message)
+        send_email(False, "Amazon S3 Settings", error_message)
 
 
 def send_email(success, service_name, error_status=None):
@@ -49,7 +49,7 @@ def send_email(success, service_name, error_status=None):
     if not frappe.db:
         frappe.connect()
 
-    recipients = split_emails(frappe.db.get_value("Amazon S3 BackUp", None, "notification_email"))
+    recipients = split_emails(frappe.db.get_value("Amazon S3 Settings", None, "notification_email"))
     frappe.sendmail(recipients=recipients, subject=subject, message=message)
 
 
@@ -60,8 +60,8 @@ def backup_to_s3():
     if not frappe.db:
         frappe.connect()
 
-    conn = S3Connection(frappe.db.get_value("Amazon S3 BackUp", None, "aws_access_key_id"),
-                        frappe.db.get_value("Amazon S3 BackUp", None, "secret_access_key"))
+    conn = S3Connection(frappe.db.get_value("Amazon S3 Settings", None, "aws_access_key_id"),
+                        frappe.db.get_value("Amazon S3 Settings", None, "secret_access_key"))
 
     # upload database
     company = re.sub('\s', '_', str(frappe.db.get_value("Global Defaults", None, "default_company")).lower());
@@ -71,9 +71,9 @@ def backup_to_s3():
     files_filename = os.path.join(get_backups_path(), os.path.basename(backup.backup_path_files))
     private_files = os.path.join(get_backups_path(), os.path.basename(backup.backup_path_private_files))
 
-    upload_file_to_s3(db_filename, company, conn, frappe.db.get_value("Amazon S3 BackUp", None, "backup_plan"))
-    upload_file_to_s3(private_files, company, conn, frappe.db.get_value("Amazon S3 BackUp", None, "backup_plan"))
-    upload_file_to_s3(files_filename, company, conn, frappe.db.get_value("Amazon S3 BackUp", None, "backup_plan"))
+    upload_file_to_s3(db_filename, company, conn, frappe.db.get_value("Amazon S3 Settings", None, "backup_plan"))
+    upload_file_to_s3(private_files, company, conn, frappe.db.get_value("Amazon S3 Settings", None, "backup_plan"))
+    upload_file_to_s3(files_filename, company, conn, frappe.db.get_value("Amazon S3 Settings", None, "backup_plan"))
 
     frappe.db.close()
     frappe.connect()
@@ -97,7 +97,7 @@ def upload_file_to_s3(filename, folder, connection, plan):
     else:
         destpath = os.path.join(folder, os.path.basename(filename))
 
-    bucket = connection.get_bucket(frappe.db.get_value("Amazon S3 BackUp", None, "bucket"))
+    bucket = connection.get_bucket(frappe.db.get_value("Amazon S3 Settings", None, "bucket"))
     source_path = filename
     source_size = os.stat(source_path).st_size
     mp = bucket.initiate_multipart_upload(destpath)

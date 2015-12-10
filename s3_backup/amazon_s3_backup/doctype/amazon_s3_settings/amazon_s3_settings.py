@@ -5,10 +5,9 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
-from frappe import _
 
 
-class AmazonS3BackUp(Document):
+class AmazonS3Settings(Document):
     def validate(self):
         from boto.s3.connection import S3Connection
 
@@ -26,4 +25,3 @@ class AmazonS3BackUp(Document):
                 conn.create_bucket(bucket_lower)
             except:
                 frappe.throw(_("Unable to create bucket {0}. Change it to a more unique ").format(bucket_lower))
-
