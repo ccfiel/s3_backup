@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include s3_backup *.css
+recursive-include s3_backup *.csv
+recursive-include s3_backup *.html
+recursive-include s3_backup *.ico
+recursive-include s3_backup *.js
+recursive-include s3_backup *.json
+recursive-include s3_backup *.md
+recursive-include s3_backup *.png
+recursive-include s3_backup *.py
+recursive-include s3_backup *.svg
+recursive-include s3_backup *.txt
+recursive-exclude s3_backup *.pyc
