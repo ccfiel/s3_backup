@@ -80,13 +80,13 @@ app_license = "MIT"
 
 scheduler_events = {
     "daily": [
-        "s3_backup.tasks.take_backups_daily"
+        "s3_backup.task.take_backups_daily"
     ],
     "weekly": [
-        "s3_backup.tasks.take_backups_weekly"
+        "s3_backup.task.take_backups_weekly"
     ],
     "monthly": [
-        "s3_backup.tasks.take_backups_monthly"
+        "s3_backup.task.take_backups_monthly"
     ]
 }
 
