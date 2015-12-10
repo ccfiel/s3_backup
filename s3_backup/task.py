@@ -89,7 +89,6 @@ def upload_file_to_s3(filename, folder, connection, plan):
 
         name = ''
         split_name = str(filename).split('_')
-        print split_name
         for name_item in split_name[2:4]:
             name += '_' + name_item
         name = today.strftime('%A').lower() + name
