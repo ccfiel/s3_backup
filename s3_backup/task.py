@@ -37,14 +37,15 @@ def take_backups_s3():
 def send_email(success, service_name, error_status=None):
     if success:
         subject = "Backup Upload Successful"
-        message = """<h3>Backup Uploaded Successfully</h3><p>Hi there, this is just to inform you
-        that your backup was successfully uploaded to your Amazon S3 bucket. So relax!</p> """
+        message = """<h3>Backup Uploaded Successfully for %s </h3><p>Hi there, this is just to inform you
+        that your backup was successfully uploaded to your Amazon S3 bucket. So relax!</p> """ \
+                  % frappe.db.get_value("Amazon S3 Settings", None, "company_name")
 
     else:
         subject = "[Warning] Backup Upload Failed"
-        message = """<h3>Backup Upload Failed</h3><p>Oops, your automated backup to Amazon S3 failed.
+        message = """<h3>Backup Upload Failed for %s </h3><p>Oops, your automated backup to Amazon S3 failed.
         </p> <p>Error message: %s</p> <p>Please contact your system manager
-        for more information.</p>""" % error_status
+        for more information.</p>""" % (frappe.db.get_value("Amazon S3 Settings", None, "company_name"), error_status)
 
     if not frappe.db:
         frappe.connect()
