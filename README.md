@@ -1,6 +1,6 @@
 ## Amazon S3 Backup
 
-Use Amazon S3 Backup for Frappe and ERPNext
+Using Amazon S3 for Backup Frappe and ERPNext
 
 #### License
 
