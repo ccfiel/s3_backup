@@ -11,6 +11,7 @@ def get_data():
                 {
                     "type": "doctype",
                     "name": "Amazon S3 Settings",
+                    "label": _("Amazon S3 Backup"),
                     "description": _("Amazon S3 Backup for Frappe and ERPNext"),
                     "hide_count": True
                 }

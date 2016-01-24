@@ -8,6 +8,7 @@ from frappe.model.document import Document
 
 
 class AmazonS3Settings(Document):
+
     def validate(self):
         from boto.s3.connection import S3Connection
 
